@@ -189,16 +189,11 @@ public class Subscriptions {
                             }
                             Calendar calendar = Calendar.getInstance();
                             calendar.setTimeInMillis(Long.parseLong((currentPurchaseHistoryRecord.get("purchaseTime").toString())));
-                            String orderId = currentPurchaseHistoryRecord.containsKey("orderId") ? (String) currentPurchaseHistoryRecord.get("orderId") : "";
+                            String orderId = currentPurchaseHistoryRecord.optString("orderId", "");  // Usamos optString para obtener un valor por defecto si la clave no existe
                             data.put("productIdentifier", currentPurchaseHistoryRecord.get("productId"));
                             data.put("originalId", orderId);
                             data.put("transactionId", orderId);
-                            if (currentPurchaseHistoryRecord.containsKey("developerPayload")) {
-                                data.put("developerPayload", currentPurchaseHistoryRecord.get("developerPayload"));
-                            } else {
-                                // Manejar el caso en que "developerPayload" no existe
-                                data.put("developerPayload", ""); // Puedes poner un valor por defecto o manejarlo de otra manera
-                            }
+                            data.put("developerPayload",currentPurchaseHistoryRecord.optString("developerPayload", ""));  // Usamos optString para obtener un valor por defecto si la clave no existe
                             data.put("purchaseToken", currentPurchaseHistoryRecord.get("purchaseToken").toString());
 
                             response.put("responseCode", 0);
