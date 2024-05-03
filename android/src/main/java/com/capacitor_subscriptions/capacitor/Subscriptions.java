@@ -189,10 +189,16 @@ public class Subscriptions {
                             }
                             Calendar calendar = Calendar.getInstance();
                             calendar.setTimeInMillis(Long.parseLong((currentPurchaseHistoryRecord.get("purchaseTime").toString())));
-
+                            String orderId = currentPurchaseHistoryRecord.containsKey("orderId") ? (String) currentPurchaseHistoryRecord.get("orderId") : "";
                             data.put("productIdentifier", currentPurchaseHistoryRecord.get("productId"));
-                            data.put("originalId", currentPurchaseHistoryRecord.get("orderId"));
-                            data.put("transactionId", currentPurchaseHistoryRecord.get("orderId"));
+                            data.put("originalId", orderId);
+                            data.put("transactionId", orderId);
+                            if (currentPurchaseHistoryRecord.containsKey("developerPayload")) {
+                                data.put("developerPayload", currentPurchaseHistoryRecord.get("developerPayload"));
+                            } else {
+                                // Manejar el caso en que "developerPayload" no existe
+                                data.put("developerPayload", ""); // Puedes poner un valor por defecto o manejarlo de otra manera
+                            }
                             data.put("purchaseToken", currentPurchaseHistoryRecord.get("purchaseToken").toString());
 
                             response.put("responseCode", 0);
@@ -265,7 +271,6 @@ public class Subscriptions {
                                                     .put("transactionId", orderId)
                                                     .put("purchaseToken", currentPurchase.getPurchaseToken())
                                     );
-                                    // }
                                 }
 
                                 response.put("responseCode", 0);
