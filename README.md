@@ -10,7 +10,7 @@ npm install @squareetlbas/capacitor-subscriptions
 ionic cap sync
 ```
 
-## Summary
+## Summary
   
 
 This plugin is designed to simplify and reduce the workload of a developer when implementing auto-renewing subscriptions for iOS and Android apps.
