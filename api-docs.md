@@ -1,11 +1,9 @@
-# capacitor-subscriptions
-
-A capacitor plugin which simplifies subscription handling - implementing StoreKit 2 and Google Billing 5
+A capacitor plugin which simplifies subscription handling - implementing StoreKit 2 and Google Billing 6.
 
 ## Install
 
 ```bash
-npm install *to-be-changed*
+npm install @squareetlbas/capacitor-subscriptions
 ionic cap sync
 ```
 

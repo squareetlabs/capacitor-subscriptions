@@ -19,7 +19,7 @@ apply plugin: 'com.android.library'
 
 
 android {
-    namespace "com.capacitor_subscriptions.capacitor"
+    namespace "com.squareetlabs.capacitor.subscriptions"
     compileSdkVersion project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 30
     defaultConfig {
         minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 21

@@ -1,4 +1,4 @@
-package com.capacitor_subscriptions.capacitor;
+package com.squareetlabs.capacitor.subscriptions;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -6,18 +6,13 @@ import android.util.Log;
 
 import com.android.billingclient.api.AcknowledgePurchaseParams;
 import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingClientStateListener;
-import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
-import com.getcapacitor.PluginResult;
 import com.getcapacitor.annotation.CapacitorPlugin;
-
-import org.json.JSONObject;
 
 @CapacitorPlugin(name = "Subscriptions")
 public class SubscriptionsPlugin extends Plugin {

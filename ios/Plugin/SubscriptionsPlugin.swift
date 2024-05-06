@@ -32,10 +32,7 @@ public class SubscriptionsPlugin: CAPPlugin {
             do {
                 let response = await implementation.getProductDetails(productIdentifier)
                 call.resolve(response)
-            } catch {
-                print(error.localizedDescription)
-                call.reject(error.localizedDescription)
-            }
+            } 
         }
     }
 
@@ -50,9 +47,6 @@ public class SubscriptionsPlugin: CAPPlugin {
             do {
                 let response = await implementation.purchaseProduct(productIdentifier)
                 call.resolve(response)
-            } catch {
-                print(error.localizedDescription)
-                call.reject(error.localizedDescription)
             }
         }
     }
@@ -63,9 +57,6 @@ public class SubscriptionsPlugin: CAPPlugin {
             do {
                 let response = await implementation.getCurrentEntitlements()
                 call.resolve(response)
-            } catch {
-                print(error.localizedDescription)
-                call.reject(error.localizedDescription)
             }
         }
     }
@@ -82,9 +73,6 @@ public class SubscriptionsPlugin: CAPPlugin {
             do {
                 let response = await implementation.getLatestTransaction(productIdentifier)
                 call.resolve(response)
-            } catch {
-                print(error.localizedDescription)
-                call.reject(error.localizedDescription)
             }
         }
     }
@@ -95,9 +83,6 @@ public class SubscriptionsPlugin: CAPPlugin {
             do {
                 await implementation.manageSubscriptions()
                 call.resolve(["Success": "Opened"])
-            } catch {
-                print(error.localizedDescription)
-                call.reject(error.localizedDescription)
             }
         }
     }

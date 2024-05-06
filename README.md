@@ -1,6 +1,6 @@
 
 # Capacitor Subscription
-This plugin is based on [Craig-Ronald Subscriptions Plugin](https://github.com/Craig-Ronald/capacitor-subscriptions)  and has been modified to work with Capacitor 6.0.0 and Google Billing 6.
+This plugin is based on [Craig-Ronald Subscriptions Plugin](https://github.com/Craig-Ronald/capacitor-subscriptions) and has been modified to work with Capacitor 6.0.0 and Google Billing 6.
 A capacitor plugin which simplifies subscription handling - implementing StoreKit 2 and Google Billing 6.
 
 ## Install
@@ -39,8 +39,6 @@ For a more in-depth look into the different parameters for methods, along with t
 By changing how the store data is received from listener-based methods to promise-based methods, the overall process of receiving data is a lot more stream-lined - returning only necessary data as opposed to every transaction a user has ever made.
 
 This plugin implements capabilities to allow the developer to:
-
-  
 
 -   No longer have to use server-side technology to verify Apple’s horribly-formatted receipt - transactions are now automatically verified on Apple’s end.
 -   Retrieve all currently active subscriptions allowing you to determine whether or not the user has access to content with just a single line of code.

@@ -1,4 +1,4 @@
-package com.capacitor_subscriptions.capacitor;
+package com.squareetlabs.capacitor.subscriptions;
 
 import android.app.Activity;
 import android.util.Log;
