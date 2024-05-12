@@ -1,6 +1,6 @@
 {
   "name": "@squareetlabs/capacitor-subscriptions",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A capacitor plugin which simplifies subscription handling - implementing StoreKit 2 and Google Billing 6",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -14,7 +14,7 @@
     "SquareetlabsCapacitorSubscriptions.podspec"
   ],
   "author": {
-    "name": "Craig Ronald"
+    "name": "Squareetlabs"
   },
   "contributors": [
     {

@@ -1,6 +1,5 @@
 
 # Capacitor Subscription
-This plugin is based on [Craig-Ronald Subscriptions Plugin](https://github.com/Craig-Ronald/capacitor-subscriptions) and has been modified to work with Capacitor 6.0.0 and Google Billing 6.
 A capacitor plugin which simplifies subscription handling - implementing StoreKit 2 and Google Billing 6.
 
 ## Install
@@ -20,8 +19,6 @@ The plugin primarily uses a promise-based architecture to allow a developer to h
   
 
 Examples - Subscriptions
-
-  
 -   [Initial Android setup (server validation)](#markdown-header-initial-android-setup-server-validation)
 -   [Determining if user has an active subscription or not](#markdown-header-determining-if-user-has-an-active-subscription-or-not)
 -   [Retrieve the most recent transaction in order to provide user feedback on when their subscription expires/expired](#markdown-header-retrieve-the-most-recent-transaction-regardless-of-whether-or-not-it-is-active-useful-for-providing-feedback-on-when-the-subscription-willhas-expired)

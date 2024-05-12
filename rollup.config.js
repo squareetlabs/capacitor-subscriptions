@@ -4,7 +4,7 @@ export default {
     {
       file: 'dist/plugin.js',
       format: 'iife',
-      name: 'capacitorSubscriptions',
+      name: 'capacitorNavigationBar',
       globals: {
         '@capacitor/core': 'capacitorExports',
       },

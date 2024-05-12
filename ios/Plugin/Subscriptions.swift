@@ -78,6 +78,7 @@ import UIKit
             "responseCode": 0,
             "responseMessage": "Successfully found the product details for given productIdentifier",
             "data": [
+                "productIdentifier": productIdentifier,
                 "displayName": displayName,
                 "description": description,
                 "price": price
@@ -155,13 +156,13 @@ import UIKit
             
             var transactionDictionary = [String: [String: Any]]();
             
-//            Loop through each verification result in currentEntitlements, verify the transaction
-//            then add it to the transactionDictionary if verified.
+            //            Loop through each verification result in currentEntitlements, verify the transaction
+            //            then add it to the transactionDictionary if verified.
             for await verification in Transaction.currentEntitlements {
                 
                 let transaction: Transaction? = checkVerified(verification) as? Transaction
                 if(transaction != nil) {
-
+                    
                     transactionDictionary[String(transaction!.id)] = [
                         "productIdentifier": transaction!.productID,
                         "originalStartDate": transaction!.originalPurchaseDate,
@@ -175,10 +176,10 @@ import UIKit
                 
             }
             
-//            If we have one or more entitlements in transactionDictionary
-//            we want the response to include it in the data property
+            //            If we have one or more entitlements in transactionDictionary
+            //            we want the response to include it in the data property
             if(transactionDictionary.count > 0) {
-            
+                
                 let response = [
                     "responseCode": 0,
                     "responseMessage": "Successfully found all entitlements across all product types",
@@ -187,22 +188,16 @@ import UIKit
                 
                 return response;
                 
-//             Otherwise - no entitlements were found
+                //             Otherwise - no entitlements were found
             } else {
                 return [
                     "responseCode": 1,
                     "responseMessage": "No entitlements were found",
                 ]
             }
-            
-        } catch {
-            print(error.localizedDescription)
-            return [
-                "responseCode": 2,
-                "responseMessage": "Unknown problem trying to retrieve entitlements"
-            ]
-        }
         
+        }
+    
 
     }
 
@@ -264,12 +259,6 @@ import UIKit
                 ]
             ];
             
-        } catch {
-            print("Error:" + error.localizedDescription);
-            return [
-                "responseCode": 3,
-                "responseMessage": "Unknown problem trying to retrieve latest transaction"
-            ]
         }
 
     }

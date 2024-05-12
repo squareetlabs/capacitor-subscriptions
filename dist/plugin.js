@@ -1,4 +1,4 @@
-var capacitorSubscriptions = (function (exports, core) {
+var capacitorNavigationBar = (function (exports, core) {
     'use strict';
 
     const Subscriptions = core.registerPlugin('Subscriptions', {
