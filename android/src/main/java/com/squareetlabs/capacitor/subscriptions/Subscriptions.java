@@ -342,7 +342,6 @@ public class Subscriptions {
                         }
 
                         call.resolve(response);
-
                     });
         }
 
@@ -370,27 +369,20 @@ public class Subscriptions {
 
                 // If the response was successful, extract expiryDate and put it in our response data property
                 if (con.getResponseCode() == 200) {
-
                     JSObject postResponseJSON = new JSObject(googleResponse.toString());
                     JSObject googleResponseJSON = new JSObject(postResponseJSON.get("googleResponse").toString()); // <-- note the typo in response object from server
                     JSObject payloadJSON = new JSObject(googleResponseJSON.get("payload").toString());
-
-                    String dateFormat = "EEE MMM dd yyyy HH:mm:ss 'GMT'Z '('z')'";
+                    String dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.getDefault());
                     Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(Long.parseLong((payloadJSON.get("expiryTimeMillis").toString())));
-
-                    Log.i("EXPIRY", simpleDateFormat.format(calendar.getTime()));
-
+                    calendar.setTimeInMillis(Long.parseLong(payloadJSON.get("expiryTimeMillis").toString()));
                     return simpleDateFormat.format(calendar.getTime());
-
                 } else {
                     return null;
                 }
             } catch (Exception e) {
                 Logger.error(e.getMessage());
             }
-
         } catch (Exception e) {
             Logger.error(e.getMessage());
         }
