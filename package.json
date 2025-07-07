@@ -34,6 +34,8 @@
     "url": "git+https://github.com/squareetlabs/capacitor-subscriptions"
   },
   "keywords": [
+    "capacitor 6",
+    "capacitor 7",
     "capacitor",
     "plugin",
     "subscriptions",
