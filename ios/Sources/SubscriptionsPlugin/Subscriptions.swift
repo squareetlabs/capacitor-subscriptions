@@ -62,17 +62,24 @@ import UIKit
 
     @available(iOS 15.0.0, *)
     @objc public func getProductDetails(_ productIdentifier: String) async -> PluginCallResultData {
+        print("[Subscriptions] getProductDetails llamado para: \(productIdentifier)")
 
         guard let product: Product = await getProduct(productIdentifier) as? Product else {
+            print("[Subscriptions] ERROR: No se pudo obtener el producto '\(productIdentifier)'")
             return [
                 "responseCode": 1,
-                "responseMessage": "Could not find a product matching the given productIdentifier"
+                "responseMessage": "Could not find a product matching the given productIdentifier: \(productIdentifier). Please verify that the product ID is correct in App Store Connect and that the product is approved and active."
             ]
         };
+        
+        print("[Subscriptions] Producto obtenido exitosamente: \(productIdentifier)")
         
         let displayName = product.displayName;
         let description = product.description;
         let price = product.displayPrice;
+        let productType = product.type;
+
+        print("[Subscriptions] Detalles del producto - Nombre: \(displayName), Precio: \(price), Tipo: \(productType)")
 
         return [
             "responseCode": 0,
@@ -81,7 +88,8 @@ import UIKit
                 "productIdentifier": productIdentifier,
                 "displayName": displayName,
                 "description": description,
-                "price": price
+                "price": price,
+                "type": String(describing: productType)
             ]
         ];
     }
@@ -302,18 +310,64 @@ import UIKit
 
     @available(iOS 15.0.0, *)
     @objc private func getProduct(_ productIdentifier: String) async -> Any? {
-
-        do {
-            let products = try await Product.products(for: [productIdentifier]);
-            if (products.count > 0) {
-                let product = products[0];
-                return product;
+        let maxRetries = 3
+        let retryDelay: UInt64 = 500_000_000 // 0.5 segundos en nanosegundos
+        
+        for attempt in 1...maxRetries {
+            do {
+                print("[Subscriptions] Intentando obtener producto '\(productIdentifier)' (intento \(attempt)/\(maxRetries))")
+                
+                let products = try await Product.products(for: [productIdentifier])
+                
+                print("[Subscriptions] Product.products(for:) devolvió \(products.count) producto(s)")
+                
+                if products.count > 0 {
+                    let product = products[0]
+                    
+                    // Verificar que el producto sea una suscripción
+                    if product.type == .autoRenewable {
+                        print("[Subscriptions] Producto encontrado: \(productIdentifier), tipo: autoRenewable, precio: \(product.displayPrice)")
+                        return product
+                    } else {
+                        print("[Subscriptions] ADVERTENCIA: El producto '\(productIdentifier)' no es una suscripción auto-renovable. Tipo: \(product.type)")
+                        // Aún así retornamos el producto por compatibilidad
+                        return product
+                    }
+                } else {
+                    print("[Subscriptions] ADVERTENCIA: Product.products(for:) devolvió un array vacío para '\(productIdentifier)'")
+                    
+                    // Si es el último intento, retornar nil
+                    if attempt == maxRetries {
+                        print("[Subscriptions] ERROR: No se pudo obtener el producto después de \(maxRetries) intentos")
+                        return nil
+                    }
+                    
+                    // Esperar antes de reintentar
+                    print("[Subscriptions] Esperando \(retryDelay / 1_000_000)ms antes de reintentar...")
+                    try await Task.sleep(nanoseconds: retryDelay)
+                }
+            } catch {
+                let errorDescription = error.localizedDescription
+                print("[Subscriptions] ERROR al obtener producto '\(productIdentifier)' (intento \(attempt)/\(maxRetries)): \(errorDescription)")
+                
+                // Si es un error específico de StoreKit, intentar obtener más detalles
+                if let storeKitError = error as? StoreKitError {
+                    print("[Subscriptions] StoreKitError: \(storeKitError)")
+                }
+                
+                // Si es el último intento, retornar nil
+                if attempt == maxRetries {
+                    print("[Subscriptions] ERROR: Falló después de \(maxRetries) intentos. Último error: \(errorDescription)")
+                    return nil
+                }
+                
+                // Esperar antes de reintentar
+                print("[Subscriptions] Esperando \(retryDelay / 1_000_000)ms antes de reintentar...")
+                try? await Task.sleep(nanoseconds: retryDelay)
             }
-            return nil
-        } catch {
-            return nil;
         }
-
+        
+        return nil
     }
 
     @available(iOS 15.0.0, *)

@@ -1,8 +1,38 @@
 {
+  "name": "@squareetlabs/capacitor-subscriptions",
+  "version": "1.0.21",
   "description" : "A capacitor plugin which simplifies subscription handling - implementing StoreKit 2 and Google Billing 7",
   "main" : "dist/plugin.cjs.js",
   "author" : {
     "name" : "Squareetlabs"
+  },
+  "contributors" : [
+    {
+      "email" : "alberto@squareet.com",
+      "url" : "https://squareet.com",
+      "name" : "Alberto Rial Barreiro"
+    },
+    {
+      "email" : "jacobo@squareet.com.com",
+      "url" : "https://squareet.com",
+      "name" : "Jacobo Cantorna Cigarrán"
+    }
+  ],
+  "scripts" : {
+    "verify:android" : "cd android && ./gradlew clean build test && cd ..",
+    "prettier" : "prettier \"**/*.{css,html,ts,js,java}\"",
+    "build" : "npm run clean && npm run docgen && tsc && rollup -c rollup.config.js --bundleConfigAsCjs",
+    "prepublishOnly" : "npm run build",
+    "eslint" : "eslint . --ext ts",
+    "clean" : "rimraf ./dist",
+    "lint" : "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint",
+    "fmt" : "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- --fix --format",
+    "verify:web" : "npm run build",
+    "watch" : "tsc --watch",
+    "verify" : "npm run verify:ios && npm run verify:android && npm run verify:web",
+    "swiftlint" : "node-swiftlint",
+    "docgen" : "docgen --api SubscriptionsPlugin --output-readme README.md --output-json dist/docs.json",
+    "verify:ios" : "xcodebuild -scheme SquareetlabsCapacitorSubscriptions -destination generic/platform=iOS"
   },
   "swiftlint" : "@ionic/swiftlint-config",
   "devDependencies" : {
@@ -38,7 +68,6 @@
     "mobile",
     "native"
   ],
-  "version" : "1.0.18",
   "prettier" : "@ionic/prettier-config",
   "license" : "MIT",
   "files" : [
@@ -62,35 +91,7 @@
       "src" : "ios"
     }
   },
-  "scripts" : {
-    "verify:android" : "cd android && ./gradlew clean build test && cd ..",
-    "prettier" : "prettier \"**/*.{css,html,ts,js,java}\"",
-    "build" : "npm run clean && npm run docgen && tsc && rollup -c rollup.config.js --bundleConfigAsCjs",
-    "prepublishOnly" : "npm run build",
-    "eslint" : "eslint . --ext ts",
-    "clean" : "rimraf ./dist",
-    "lint" : "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint",
-    "fmt" : "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- --fix --format",
-    "verify:web" : "npm run build",
-    "watch" : "tsc --watch",
-    "verify" : "npm run verify:ios && npm run verify:android && npm run verify:web",
-    "swiftlint" : "node-swiftlint",
-    "docgen" : "docgen --api SubscriptionsPlugin --output-readme README.md --output-json dist/docs.json",
-    "verify:ios" : "xcodebuild -scheme SquareetlabsCapacitorSubscriptions -destination generic/platform=iOS"
-  },
-  "name" : "@squareetlabs/capacitor-subscriptions",
-  "contributors" : [
-    {
-      "email" : "alberto@squareet.com",
-      "url" : "https://squareet.com",
-      "name" : "Alberto Rial Barreiro"
-    },
-    {
-      "email" : "jacobo@squareet.com.com",
-      "url" : "https://squareet.com",
-      "name" : "Jacobo Cantorna Cigarrán"
-    }
-  ],
+
   "types" : "dist/esm/index.d.ts",
   "repository" : {
     "url" : "git+https://github.com/squareetlabs/capacitor-subscriptions",
