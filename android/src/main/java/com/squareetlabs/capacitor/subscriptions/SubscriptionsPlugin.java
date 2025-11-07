@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.android.billingclient.api.AcknowledgePurchaseParams;
 import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.PendingPurchasesParams;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.getcapacitor.JSObject;
@@ -70,9 +71,13 @@ public class SubscriptionsPlugin extends Plugin {
     @Override
     public void load() {
 
+        PendingPurchasesParams pendingPurchasesParams = PendingPurchasesParams.newBuilder()
+                .enableOneTimeProducts()
+                .build();
+
         this.billingClient = BillingClient.newBuilder(getContext())
                 .setListener(purchasesUpdatedListener)
-                .enablePendingPurchases()
+                .enablePendingPurchases(pendingPurchasesParams)
                 .build();
         implementation = new Subscriptions(this, billingClient);
 
