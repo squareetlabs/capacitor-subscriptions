@@ -271,12 +271,43 @@ import UIKit
 
     }
 
-    @available(iOS 15.0.0, *)
-    @objc public func manageSubscriptions() async {
-        
-        let manageTransactions: UIWindowScene
-        await UIApplication.shared.open(URL(string: "https://apps.apple.com/account/subscriptions")!)
-        
+    @objc public func manageSubscriptions() async throws {
+        if #available(iOS 15.0, *) {
+            // Usar API nativa de StoreKit 2 (funciona en Sandbox y producción)
+            print("[Subscriptions] Iniciando gestión de suscripciones con API nativa de StoreKit 2")
+            
+            // Obtener la UIWindowScene actual
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+                print("[Subscriptions] ERROR: No se pudo obtener la UIWindowScene")
+                throw NSError(
+                    domain: "SubscriptionsError",
+                    code: 1,
+                    userInfo: [NSLocalizedDescriptionKey: "No se pudo obtener la UIWindowScene. Asegúrate de que la aplicación esté ejecutándose en un dispositivo o simulador con iOS 15.0 o superior."]
+                )
+            }
+            
+            do {
+                print("[Subscriptions] Mostrando hoja de gestión de suscripciones nativa")
+                try await AppStore.showManageSubscriptions(in: windowScene)
+                print("[Subscriptions] Hoja de gestión de suscripciones cerrada exitosamente")
+            } catch {
+                print("[Subscriptions] ERROR al mostrar la gestión de suscripciones: \(error.localizedDescription)")
+                throw error
+            }
+        } else {
+            // Fallback para versiones anteriores a iOS 15.0: abrir URL web
+            print("[Subscriptions] iOS < 15.0 detectado, usando fallback: abrir URL web")
+            guard let url = URL(string: "https://apps.apple.com/account/subscriptions") else {
+                throw NSError(
+                    domain: "SubscriptionsError",
+                    code: 2,
+                    userInfo: [NSLocalizedDescriptionKey: "No se pudo crear la URL para gestionar suscripciones"]
+                )
+            }
+            
+            await UIApplication.shared.open(url)
+            print("[Subscriptions] URL de gestión de suscripciones abierta")
+        }
     }
     
     @available(iOS 15.0.0, *)

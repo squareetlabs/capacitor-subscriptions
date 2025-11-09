@@ -89,12 +89,13 @@ public class SubscriptionsPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
     
-    @available(iOS 15.0.0, *)
     @objc func manageSubscriptions(_ call: CAPPluginCall) {
         Task {
             do {
-                await implementation.manageSubscriptions()
+                try await implementation.manageSubscriptions()
                 call.resolve(["Success": "Opened"])
+            } catch {
+                call.reject("Error al mostrar la gestión de suscripciones: \(error.localizedDescription)")
             }
         }
     }
